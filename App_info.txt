@@ -1,0 +1,12 @@
+Worker's App Demo
+By: Jevon Jordan, 2023
+Project Number: 02
+Version: 1.02
+======================================================
+This is a project that is done as a means to push my
+limitted programming skill to the next level while 
+doing something that is actualy useful. I got projects
+like this from real-life troublesome experiences so 
+the next project would likely be another solution to a
+problem that I had encountered over these years.
+=======================================================
