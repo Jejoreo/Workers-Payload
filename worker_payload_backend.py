@@ -293,7 +293,7 @@ def instant_deletion(values):
     try:
         if name is not None:
             wb_com.instant_delete(name)
-            sg.popup(f'{name} has been removed')
+            sg.popup(f'{name} has been removed instantly', 'Removal Message')
     except Exception as e:
         sg.popup(f'Error: {e}')        
 
@@ -357,7 +357,7 @@ def evaluate_expression(expression):
         return None
     
 
-def calculate_total_presense(window, values):
+def calculate_total_presence(window, values):
     name = values['-FILTER_WORKER_NAME-']
     month = values['-FILTER_WORKER_MONTH-']
     if name or month:
@@ -367,8 +367,7 @@ def calculate_total_presense(window, values):
         msg = f'{total_attendance}/{total_presence}'
         window['-TOTAL_PRESENCE-'].update(msg)
     else:
-        msg = 'No data aquired'
-        window['-TOTAL_PRESENCE-'].update(msg)
+        window['-TOTAL_PRESENCE-'].update('')
 
 
 '''
@@ -383,7 +382,7 @@ def export_data(wb, filename):
     locale.setlocale(locale.LC_ALL, 'id_ID')
     data = wb_com.get_export_data()
     
-    # #* Launch new excel app
+    # #* Launch new excel sheet
     sheet = wb.sheets[0]
     
     #* Write data to the worksheet
@@ -395,7 +394,7 @@ def export_data(wb, filename):
     #* Set the currency number formatting
     sheet.range('D:E').number_format = f'Rp #,##0.00'
     
-    #* Apply coloring to worksheet
+    #* Target cells to apply the excel filter
     sheet.range('A1').expand('right').api.AutoFilter(1)
     
     #* Apply border to cells
@@ -420,7 +419,7 @@ def export_data(wb, filename):
     #* Save the workbook
     wb.save(filename)
     
-    #* Close and quit the app
+    #* Close and quit the workbook
     wb.close()
 
 
@@ -488,14 +487,14 @@ def main_program():
             put_input_to_database(values)
             get_cb_name(window, values)
             get_table_content(window)
-            sg.popup_notify('Data has been added', 'Message', display_duration_in_ms=1000)
+            sg.popup_notify('Data has been added', 'Message', display_duration_in_ms=500)
         
         
         elif event == '-EDIT_IMG-':
             set_img = put_image_to_database(values)
             if set_img is True:
                 window['-IMAGE-'].update(load_img(values['-SELECT_IMG-']))
-                sg.popup('Picture has been updated')
+                sg.popup('Picture has been updated', 'Info Window')
             else:
                 default_img = r'D:\Projects\Workers Payload\intro_image.jfif'
                 window['-IMAGE-'].update(load_img(default_img))
@@ -504,7 +503,8 @@ def main_program():
         elif event == '-SELECT_WORKER_NAME-':
             worker_name = values['-SELECT_WORKER_NAME-']
             get_cb_date(worker_name, window)
-
+            get_image_fill(window, values)
+        
         
         elif event == '-SELECT_WORKER_DATE-':
             get_input_fill(window, values)
@@ -570,7 +570,7 @@ def main_program():
             calculate_total_earn(window, values)
             calculate_total_lost(window, values)
             calculate_total_money(window, values)
-            calculate_total_presense(window, values)
+            calculate_total_presence(window, values)
 
 
         elif event == '-SHOW_ALL-':
@@ -578,6 +578,7 @@ def main_program():
             window['-SHOW_INCOME-'].update(value='')
             window['-SHOW_OUTCOME-'].update(value='')
             window['-TOTAL_EARN-'].update(value='')
+            window['-TOTAL_PRESENCE-'].update(value='')
             
             
         elif event == '-CLEAR_INPUT-':
