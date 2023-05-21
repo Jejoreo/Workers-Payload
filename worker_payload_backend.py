@@ -130,17 +130,20 @@ def get_earning(window, values):
     new_earn = wb_com.get_earning(name, date)
     window['-INCOME-'].update(new_earn)
 
+
 def get_reduction(window, values):
     name = values['-NAME-']
     date = values['-DATE-']
     new_lost = wb_com.get_cut_wage(name, date)
     window['-OUTCOME-'].update(new_lost)
 
+
 def get_note(window, values):
     name = values['-NAME-']
     date = values['-DATE-']
     show_note = wb_com.get_note(name, date)
     window['-MLINE-'].update(show_note)
+
 
 def get_table_content(window):
     worker_data = wb_com.get_table_content()
@@ -387,10 +390,8 @@ def export_data(wb, filename):
     
     #* Write data to the worksheet
     sheet.range('A1').value = data
-    
     #* Set the number format for date
     sheet.range('B:B').number_format = 'mm-dd-yyyy'
-    
     #* Set the currency number formatting
     sheet.range('D:E').number_format = f'Rp #,##0.00'
     
